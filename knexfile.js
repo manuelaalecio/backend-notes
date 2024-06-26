@@ -10,16 +10,16 @@ module.exports = {
       afterCreate: (conn, cb) => {
         conn.run("PRAGMA foreign_keys = ON", cb);
       },
-      migrations: {
-        directory: path.resolve(
-          __dirname,
-          "src",
-          "database",
-          "knex",
-          "migrations"
-        ),
-      },
-      useNullAsDefault: true,
     },
+    migrations: {
+      directory: path.resolve(
+        __dirname,
+        "src",
+        "database",
+        "knex",
+        "migrations"
+      ),
+    },
+    useNullAsDefault: true,
   },
 };
