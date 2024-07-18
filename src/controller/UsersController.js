@@ -1,6 +1,5 @@
 const { hash, compare } = require("bcryptjs");
 const AppError = require("../utils/AppError");
-
 const sqliteConnection = require("../database/sqlite");
 
 class UsersController {
@@ -29,14 +28,16 @@ class UsersController {
 
   async update(request, response) {
     const { name, email, password, old_password } = request.body;
-    const { id } = request.params;
+    const user_id = request.user.id;
 
     const database = await sqliteConnection();
-    const user = await database.get("SELECT * FROM users WHERE id = (?)", [id]);
+    const user = await database.get("SELECT * FROM users WHERE id = (?)", [
+      user_id,
+    ]);
 
     const checkUserExists = await database.get(
       "SELECT * FROM users WHERE id = (?)",
-      [id]
+      [user_id]
     );
 
     if (!user) {
@@ -72,7 +73,7 @@ class UsersController {
 
     await database.run(
       "UPDATE users SET name = ?, email = ?, password = ?, updated_at = DATETIME('now') WHERE id = ?",
-      [user.name, user.email, user.password, id]
+      [user.name, user.email, user.password, user_id]
     );
 
     return response.status(200).json();
