@@ -17,10 +17,10 @@ class UserAvatarController {
         401
       );
     }
+
     if (user.avatar) {
       await diskStorage.deleteFile(user.avatar);
     }
-
     const filename = await diskStorage.saveFile(avatarFilename);
     user.avatar = filename;
 
